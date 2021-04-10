@@ -1,0 +1,153 @@
+
+/*
+Route::get('/', function () {
+return view('welcome');
+});
+
+Auth::routes();
+
+
+Route::get('/home', 'HomeController@index')->name('home');
+
+
+
+
+
+Route::get('/test','Agent\Employe@test');
+
+
+Route::get('/admin/connexion',function (){
+
+return view('admin')->with(['auth' => 0]);
+
+})->middleware('non_auth_user');
+
+
+Route::post('/admin/connexion','Admin\Admin@Connexion')->middleware('non_auth_user');
+
+
+
+
+
+Route::middleware(['est_auth_user'])->group(function () {
+
+
+
+Route::get('/admin', function () {
+return view('admin')->with(['auth' => 1]);
+});
+
+Route::prefix('admin')->group(function () {
+
+
+Route::get('/fichier_pdf_autorisation_abs/{id}/','Admin\Admin@GenererFichierAuto');
+Route::get('/fichier_pdf_demande_fonds/{id}/','Admin\Admin@GenererFichierFonds');
+
+
+Route::get('/{any}', function () {
+return view('admin')->with(['auth' => 1]);
+})->where('any', '.*');
+
+
+Route::post('/est_connecter',function(){
+if(Auth::check())
+return response()->json(['auth'=>true]);
+else
+return response()->json(['auth'=>false]);
+});
+
+Route::post('/demande_en_attente', 'Admin\Admin@ListeDemandeAbsAttentes');
+Route::post('/demande_en_attente_fond', 'Admin\Admin@ListeDemandeFonds');
+
+Route::post('/reponse_autorisation', 'Admin\Admin@validationAdbsence');
+Route::post('/reponse_demande_fond', 'Admin\Admin@validationFonds');
+
+Route::post('/info_admin', 'Admin\Admin@InfoCompteAdmin');
+Route::post('/update_password', 'Admin\Admin@MofifierPassword');
+Route::post('/deconnexion', function () {
+Auth::logout();
+});
+Route::post('/modifier_info_compte', 'Admin\Admin@ModifierInfoCompte');
+
+
+
+});
+
+
+
+
+});
+
+
+
+
+
+
+
+
+
+
+
+//-----------------------------------       ---------------------------------------------
+
+
+
+
+
+Route::middleware(['non_auth_agent'])->group(function () {
+
+
+
+Route::get('/connexion', function (){
+
+return view('welcome')->with(['auth' => 0]);;
+
+});
+
+
+Route::post('/connexion', 'Agent\Employe@Connexion');
+
+
+
+Route::post('/inscription', 'Agent\Employe@Inscription');
+
+
+Route::get('/inscription', function (){
+return view('welcome')->with(['auth' => 0]);;
+
+});
+
+
+});
+
+
+Route::middleware(['est_auth_agent'])->group(function () {
+
+Route::get('/fichier_pdf_autorisation_abs','Agent\Employe@GenererFichier');
+
+
+
+Route::get('/fichier_pdf_autorisation_abs/{id_abs}','Agent\Employe@GenererFichierId');
+Route::post('/historique/autorisation','Agent\Employe@HistoriqueAbsence');
+Route::post('/historique/fonds','Agent\Employe@HistoriqueFonds');
+
+Route::get('/fichier_pdf_demande_fonds/{id_fond}','Agent\Employe@GenererFichierDemandeFond');
+
+
+Route::get('/{any}', function () {
+return view('welcome')->with(['auth' => 1]);;
+})->where('any', '.*');
+
+
+
+Route::post('/autorisation_absence','Agent\Employe@AutorisationDemande');
+Route::post('/demande_fond', 'Agent\Employe@DemandeFond');
+Route::post('/info_agent', 'Agent\Employe@InfoAgent');
+Route::post('/deconnexion', function (){
+Auth()->guard('agents')->logout();
+});
+
+
+});
+
+
