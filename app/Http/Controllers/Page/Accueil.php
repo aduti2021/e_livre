@@ -9,6 +9,11 @@ use Illuminate\Support\Facades\DB;
 class Accueil extends Controller
 {
     //
+
+    /**
+     * Page d'accueil avec une pagination de 4 /page
+     *
+     */
     public  function Index(Request  $request){
         $data = DB::table('livres')->select()->inRandomOrder('1234')
             ->paginate(4);

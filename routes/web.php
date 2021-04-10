@@ -16,17 +16,50 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+/**
+ * Les information météos d'une ville
+ * ville=
+ */
 Route::post('/getmeteo','Meteo\Meteo@getVille');
+
+/**
+ * recuperer La liste des livres
+ *
+ */
 Route::post('/tous_livres','Page\Accueil@index');
+
+
+/**
+ * ajouter un livre au panier
+ *
+ */
+
 Route::post('/ajouter_panier','Livre\Panier@ajoutAuPanier');
+
+
+/**
+ * Recuperer la panier de l'user
+ *
+ */
 Route::post('/get_panier','Livre\Panier@recupererPanier');
+
+/**
+ * Retirer un produiit du panier
+ *
+ */
 Route::post('/retirer_panier','Livre\Panier@retirerAuPanier');
 
 
+
+/**
+ * L'user doit être authentifier pour accéder à ses routes
+ *
+ */
 Route::middleware(['est_auth_user'])->group(function () {
 
 
     Route::post('/valider_commande','Livre\Commande@validerCommande');
+
 
     Route::get('/validation_commande', function (){
 

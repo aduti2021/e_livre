@@ -10,11 +10,17 @@ class Panier extends Controller
 {
     //
 
+    /**
+     * Ajout d'un livre au panier
+     *
+     */
+
     function ajoutAuPanier(Request  $request){
 
         $id_livre = request('livre_id');
 
 
+        //on ajoute uniquement l'identifiant du produit
         if($request->session()->has('panier'))
         {
 
@@ -23,6 +29,8 @@ class Panier extends Controller
 
 
             array_push($panier, $id_livre);
+
+            //pas de doublons
             $panier =   array_unique($panier);
             session()->put("panier", $panier);
 
@@ -39,6 +47,11 @@ class Panier extends Controller
 
     }
 
+
+    /**
+     * Recuperer la panier de l'utilisateur (Voir panier)
+     *
+     */
     function  recupererPanier(){
 
 

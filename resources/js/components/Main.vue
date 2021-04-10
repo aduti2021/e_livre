@@ -217,10 +217,12 @@
 
 <script>
 export default {
+    //Permet de s'avoir si l'user est autgentifier
     props: ['auth'],
     mounted() {
         this.isMobile = window.innerWidth < 700;
 
+        //Un évènement incrementer le panier Communication entre le composant Accueil et Main
         this.$root.$on('setNbArticle', (data) => {
 
             //this.nb_article_au_panier = data;
