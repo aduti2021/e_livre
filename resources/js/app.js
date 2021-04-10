@@ -70,6 +70,13 @@ const router = new VueRouter({
             meta: { transition: 'overlay-right' },
         },
 
+        {
+            path: '/meteo',
+            name: 'meteo',
+            component: resolve => require(['./components/Meteo'],resolve),
+            meta: { transition: 'overlay-right' },
+        },
+
 
         {
             path :'*',

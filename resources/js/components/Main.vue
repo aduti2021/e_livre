@@ -24,7 +24,7 @@
                     /></v-avatar>
             </v-btn>
             <v-toolbar-title
-                v-if="!isMobile"
+
                 style="width: 500px"
                 class="ml-0"
             >
@@ -44,17 +44,14 @@
                     </v-btn>
                 </v-hover>
 
+                <v-hover v-slot="{ hover }">
+                    <v-btn  @click="Meteo"  :elevation="hover ?  5 :  0 " color="blue darken-3"  depressed>
+                        Meteo
+                    </v-btn>
+                </v-hover>
+
             </v-toolbar-title>
-            <v-text-field
-                flat
-                solo-inverted
-                rounded
-                hide-details
-                solo
-                prepend-inner-icon="mdi-magnify"
-                label="Rechercher un livre"
-                class="hidden-sm-and-down"
-            />
+
             <v-spacer />
             <v-btn icon v-if="isConnected" @click="dialog_deco = !dialog_deco">
                 <v-icon>mdi-account</v-icon>
@@ -270,6 +267,9 @@ export default {
         },
         Connexion(){
             this.$router.push('/connexion');
+        },
+        Meteo(){
+            this.$router.push('/meteo');
         },
         Accueil(){
             this.$router.push('/');

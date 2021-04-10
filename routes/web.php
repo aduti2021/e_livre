@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::post('/getmeteo','Meteo\Meteo@getVille');
 Route::post('/tous_livres','Page\Accueil@index');
 Route::post('/ajouter_panier','Livre\Panier@ajoutAuPanier');
 Route::post('/get_panier','Livre\Panier@recupererPanier');
