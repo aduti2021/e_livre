@@ -4,7 +4,25 @@
 
 
 
-
+        <v-row align="center">
+            <v-col
+                class="d-flex"
+                cols="12"
+                filled
+                sm="6"
+            >
+                <v-select
+                    v-model="cat_select"
+                    :items="list_categorie"
+                    item-text="lib"
+                    item-value="id"
+                    return-object
+                    @input="remplirCategorie"
+                    single-line
+                    label="Choisir une categorie"
+                ></v-select>
+            </v-col>
+        </v-row>
 
         <v-row dense>
 
@@ -299,6 +317,7 @@ export default {
 
         setTimeout( ()=> {
             this.remplirListeLivre();
+            this.listeDesCategories();
         }, 1000);
     },
     data: () => ({
@@ -306,6 +325,8 @@ export default {
         snack_info: false,
         message_snak :'',
         temps_snak: 4000,
+        list_categorie : [],
+        cat_select: null,
         dialog_ajouter_panier: false,
         chargement_ajp : false,
         chargement: true,
@@ -323,6 +344,35 @@ export default {
     }),
 
     methods: {
+
+        listeDesCategories(){
+
+            axios.post('/get_liste_des_categorie').then(response => {
+
+                this.list_categorie = response.data.data_cat;
+
+
+            });
+            this.chargement = false;
+
+        },
+
+        remplirCategorie(){
+
+            this.chargement = true;
+            axios.post('/get_categorie?cat='+this.cat_select.id).then(response => {
+
+
+                let data = response.data.data.data;
+                this.nb_total_page = response.data.data.last_page;
+                this.data_livres = [];
+                this.data_livres = data;
+
+
+            });
+            this.chargement = false;
+
+        },
         remplirListeLivre() {
 
             this.chargement = true;

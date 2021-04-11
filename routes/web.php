@@ -29,6 +29,10 @@ Route::post('/getmeteo','Meteo\Meteo@getVille');
 Route::post('/tous_livres','Page\Accueil@index');
 
 
+Route::post('/get_categorie','Page\Accueil@getCategorie');
+Route::post('/get_liste_des_categorie','Page\Accueil@getListeDesCategories');
+
+
 /**
  * ajouter un livre au panier
  *

@@ -304,12 +304,32 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
     var _this = this;
 
     setTimeout(function () {
       _this.remplirListeLivre();
+
+      _this.listeDesCategories();
     }, 1000);
   },
   data: function data() {
@@ -318,6 +338,8 @@ __webpack_require__.r(__webpack_exports__);
       snack_info: false,
       message_snak: '',
       temps_snak: 4000,
+      list_categorie: [],
+      cat_select: null,
       dialog_ajouter_panier: false,
       chargement_ajp: false,
       chargement: true,
@@ -331,6 +353,26 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
+    listeDesCategories: function listeDesCategories() {
+      var _this2 = this;
+
+      axios.post('/get_liste_des_categorie').then(function (response) {
+        _this2.list_categorie = response.data.data_cat;
+      });
+      this.chargement = false;
+    },
+    remplirCategorie: function remplirCategorie() {
+      var _this3 = this;
+
+      this.chargement = true;
+      axios.post('/get_categorie?cat=' + this.cat_select.id).then(function (response) {
+        var data = response.data.data.data;
+        _this3.nb_total_page = response.data.data.last_page;
+        _this3.data_livres = [];
+        _this3.data_livres = data;
+      });
+      this.chargement = false;
+    },
     remplirListeLivre: function remplirListeLivre() {
       this.chargement = true;
       var ce = this;
@@ -352,17 +394,17 @@ __webpack_require__.r(__webpack_exports__);
       this.dialog_article = !this.dialog_article;
     },
     ajouterAuPanier: function ajouterAuPanier() {
-      var _this2 = this;
+      var _this4 = this;
 
       this.chargement_ajp = true;
       axios.post('/ajouter_panier?livre_id=' + this.livre_selec.id).then(function (response) {
-        _this2.dialog_article = false;
+        _this4.dialog_article = false;
 
-        _this2.$root.$emit('setNbArticle', response.data.panier);
+        _this4.$root.$emit('setNbArticle', response.data.panier);
 
-        _this2.snack_info = true;
-        _this2.dialog_ajouter_panier = false;
-        _this2.message_snak = "Livre ajouter au panier.";
+        _this4.snack_info = true;
+        _this4.dialog_ajouter_panier = false;
+        _this4.message_snak = "Livre ajouter au panier.";
       })["catch"](function (error) {});
       this.chargement_ajp = false;
     }
@@ -439,6 +481,42 @@ var render = function() {
     "v-container",
     { attrs: { "fill-height": "", fluid: "" } },
     [
+      _c(
+        "v-row",
+        { attrs: { align: "center" } },
+        [
+          _c(
+            "v-col",
+            {
+              staticClass: "d-flex",
+              attrs: { cols: "12", filled: "", sm: "6" }
+            },
+            [
+              _c("v-select", {
+                attrs: {
+                  items: _vm.list_categorie,
+                  "item-text": "lib",
+                  "item-value": "id",
+                  "return-object": "",
+                  "single-line": "",
+                  label: "Choisir une categorie"
+                },
+                on: { input: _vm.remplirCategorie },
+                model: {
+                  value: _vm.cat_select,
+                  callback: function($$v) {
+                    _vm.cat_select = $$v
+                  },
+                  expression: "cat_select"
+                }
+              })
+            ],
+            1
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
       _c(
         "v-row",
         { attrs: { dense: "" } },

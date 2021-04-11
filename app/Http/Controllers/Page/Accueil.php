@@ -21,4 +21,26 @@ class Accueil extends Controller
         return response()->json(['data' => $data]);
 
     }
+    /**
+     * La liste des livre d'une certaine categorie
+     *
+     */
+    function getCategorie(Request  $request){
+        $data = DB::table('livres')->select()->where('id_cat','=',request('cat'))->paginate(4);
+
+        return response()->json(['data' => $data]);
+
+    }
+
+    /**
+     * Liste des categorie de livre disponible
+     *
+     */
+    function getListeDesCategories(Request  $request){
+        $data = DB::table('categorie')->select()->get();
+
+        return response()->json(['data_cat' => $data]);
+
+    }
+
 }
